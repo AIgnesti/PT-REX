@@ -1,3 +1,13 @@
+###########################
+"""
+Author: Alessandro Ignesti
+Ver 2.0
+Contacts: https://aignesti.github.io/
+
+Point-to-point TRend EXtractor [PT-REX]
+
+##########################
+
 ##########################
 REQUIRMENTS:
 -Python 3.*
