@@ -1,13 +1,15 @@
 ###########################
 """
 Author: Alessandro Ignesti
-Ver 2.0
-Contacts: https://aignesti.github.io/
+Ver 2.1
+Contacts: https://aignesti.github.io/ | alessandro.ignesti@inaf.it
 
 Point-to-point TRend EXtractor [PT-REX]
-
+For further information check https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub
 ##########################
-
+What's new:
+-v2.1 : Improved fitting algorithm to handle datasets with large dynamical range (> 2 orders of magnitude);
+-v2.0 : First public release.
 ##########################
 REQUIRMENTS:
 -Python 3.*
