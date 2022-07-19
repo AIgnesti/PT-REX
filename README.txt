@@ -34,5 +34,22 @@ The region and mask box files must be in CASA region format (.crtf).
 
 USAGE:
 
-Run PT-REX.py in the same folder of the images and the region files
+1) Run PT-REX.py in the same folder of the images and the region files:
+
 $ python3 PT-REX.py
+
+2) Provide the requested inputs, that are fitting method and calibration error. They are going to be used during the analysis, and they can be updated by using the corresponding task [r]. 
+
+$ Calibration error of the radio image [es. 0.05]: 0.1
+$ Fitting method [LS | BCES_ort | BCES_bisec | LinMix]: LS
+
+3) Select and run a task from the list:
+
+$TASK LIST
+$-Create a new mask.image from a mask.reg [1]
+$-Create a new J2000 mesh.crtf for the radio map [2]
+$-Single mesh analysis [3]
+$-Monte-Carlo analysis [4]
+$UTILITIES:
+$--Reload images and configuration [r]
+$--quit [q]
