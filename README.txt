@@ -1,11 +1,13 @@
 ###########################
-"""
 Author: Alessandro Ignesti
 Ver 2.2
 Contacts: https://aignesti.github.io/ | alessandro.ignesti@inaf.it
 
 Point-to-point TRend EXtractor [PT-REX]
-For further information check https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub
+For further information check https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub .
+ If PT-REX was helpful to your research an acknowledgment would be appreciated:
+ -Cite the paper: Ignesti 2022, New Astronomy, Volume 92, article id. 101732.
+ -Indicate the URL of the GitHub repository as a footnote: \footnote{https://github.com/AIgnesti/PT-REX}
 ##########################
 What's new:
 -v2.2 : Bug fix. 
