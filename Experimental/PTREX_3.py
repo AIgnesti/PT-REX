@@ -76,6 +76,7 @@ if("-h" in  sys.argv or len(sys.argv)==1):
 	print('-cel_w: Set cell width [arcsec] ')
 	print('-cel_h: Set cell height [arcsec] ')
 	print('-thr: Set IMAGE1 threshold [IMAGE1 units]')
+	print('Optional:')
 	print('-lm: Set grid overlap with mask [0.0-0.99, default 0.5]')
 	print('-sm: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]')
 	print('-h Print help')
@@ -204,7 +205,7 @@ def toggle_selector(event):
 			xi=x1+n*r*np.sqrt(3.)/2.		
 			yi=y1
 			m=0.
-			while yi<y2-2.*r:
+			while yi<y2-3.*r:
 				if (n % 2) == 0:
 					yi=y1+m*3.*r
 				else:
