@@ -11,7 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from astropy.io import fits
 from astropy.visualization import astropy_mpl_style
-from matplotlib.colors import LogNorm
+from matplotlib.colors import LogNorm, SymLogNorm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+
 import matplotlib.patches as patches
 from regions.core import PixCoord
 from regions import PixCoord, PolygonSkyRegion, PolygonPixelRegion
@@ -28,13 +30,22 @@ import astropy.units as u
 import nmmn.stats
 import sys
 import os
+from matplotlib import cm
 from scipy import stats
 import warnings
 warnings.filterwarnings("ignore")
+
+cmpa = cm.get_cmap('Blues', 128)
+newcolors = cmpa(np.linspace(0, 1, 10))
+newcmp = ListedColormap(newcolors)
+
+
+
 region_type='rectangle'
 stepx = "none"
 stepy ='none'
 thresh='none'
+sm_g='none'
 limit=0.5
 image_file1='none'#'JW100new_Ha_5x5.fits'
 image_file2='none'#'16136-img.fits'
@@ -42,7 +53,9 @@ if("-cel_w" in  sys.argv):
 	stepx = float(sys.argv[sys.argv.index("-cel_w") + 1]  )  
 
 if("-cel_h" in  sys.argv):
-	stepy = float(sys.argv[sys.argv.index("-cel_h") + 1] )   
+	stepy = float(sys.argv[sys.argv.index("-cel_h") + 1] )
+if("-sm" in  sys.argv):
+	sm_g= float(sys.argv[sys.argv.index("-sm") + 1] )   
 
 if("-thr" in  sys.argv):
 	thresh = float(sys.argv[sys.argv.index("-thr") + 1] )   
@@ -64,6 +77,7 @@ if("-h" in  sys.argv or len(sys.argv)==1):
 	print('-cel_h: Set cell height [arcsec] ')
 	print('-thr: Set IMAGE1 threshold [IMAGE1 units]')
 	print('-lm: Set grid overlap with mask [0.0-0.99, default 0.5]')
+	print('-sm: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]')
 	print('-h Print help')
 	print('EXAMPLE: python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0')
 	print('---------------------')
@@ -143,19 +157,36 @@ def line_select_callback(eclick, erelease):
 	x2, y2 = erelease.xdata, erelease.ydata
 	
 	print("(%3.2f, %3.2f) --> (%3.2f, %3.2f)" % (x1, y1, x2, y2))
-	print(" The button you used were: %s %s" % (eclick.button, erelease.button))
-
+	
 
 def toggle_selector(event):
 	global thresh_map
 	global region_type
+	global stepx
+	global stepy
 	if event.key in ['Q', 'q'] and toggle_selector.RS.active:
 		print('Bye')
 		toggle_selector.RS.set_active(False)
 		for file in os.listdir("./"):
 			if file.endswith("_2ax_temp.fits"):
 				os.system('rm '+file)
-		
+	
+	if event.key in ['+'] and toggle_selector.RS.active:
+		stepx=stepx+0.5
+		stepy=stepy+0.5
+		print('----')
+		print('Cell width: '+str(stepx)+' arcsec')
+		print('Cell height: '+str(stepy)+' arcsec')
+		print('----')
+	if event.key in ['-'] and toggle_selector.RS.active:
+		stepx=stepx-0.5
+		stepy=stepy-0.5
+		print('----')
+		print('Cell width: '+str(stepx)+' arcsec')
+		print('Cell height: '+str(stepy)+' arcsec')
+		print('----')
+
+
 	if event.key in ['H', 'h'] and toggle_selector.RS.active:
 		#print(' RectangleSelector activated.')
 		#toggle_selector.RS.set_active(True)
@@ -313,7 +344,11 @@ def toggle_selector(event):
 		grid=open('out_grid.reg', 'w')
 		grid.write('#Region file format: DS9 version 4.1\n')
 		grid.write('global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
-		grid.write('fk5\n')
+		
+		if region_type=='rectangle':
+			grid.write('fk5\n')
+		if region_type=='hexagon':
+			grid.write('image\n')
 		S1=[]
 		S2=[]
 		e_s1=[]
@@ -329,7 +364,7 @@ def toggle_selector(event):
 				reg1 = RectanglePixelRegion(center, width=stepx/scale1,height=stepy/scale1)
 				reg2 = RectanglePixelRegion(PixCoord(px,py), width=stepx/scale2,height=stepy/scale2)
 				area=stepx*stepy
-				#grid.write('box('+str(wx)+','+str(wy)+','+str(stepx)+'",'+str(stepy)+'",0.0)\n')
+				grid.write('box('+str(wx)+','+str(wy)+','+str(stepx)+'",'+str(stepy)+'",0.0)\n')
 
 			if region_type=='hexagon':
 				r=np.sqrt(stepx**2+stepy**2)/scale1/2.
@@ -337,6 +372,9 @@ def toggle_selector(event):
 				reg2=hexagon(px,py,r/scale2*scale1)
 
 				area=3./2.*np.sqrt(3.)*r*r*scale1**2
+				#print(reg1.vertices[0].x)
+				grid.write('polygon('+str(reg1.vertices[0].x)+','+str(reg1.vertices[0].y)+','+str(reg1.vertices[1].x)+','+str(reg1.vertices[1].y)+','+str(reg1.vertices[2].x)+','+str(reg1.vertices[2].y)+','+str(reg1.vertices[3].x)+','+str(reg1.vertices[3].y)+','+str(reg1.vertices[4].x)+','+str(reg1.vertices[4].y)+','+str(reg1.vertices[5].x)+','+str(reg1.vertices[5].y)+')\n')
+				#reg1.write('out_grid.reg', format='ds9',overwrite=True)
 			
 			
 
@@ -484,6 +522,10 @@ pixel_scale_2 = utils.proj_plane_pixel_scales(w2)
 
 scale1=pixel_scale_1[0]*3600.  
 scale2=pixel_scale_2[0]*3600.  
+
+if sm_g!='none':
+	image_data2 = ndimage.gaussian_filter(image_data2, sigma=(sm_g*scale2, sm_g*scale2), order=0)
+
 #thresh_map=np.zeros_like(image_data1)
 #thresh_map[image_data1>thresh]=1.
 thresh_map=thresh_mapper(thresh,image_data1)
@@ -509,10 +551,10 @@ h_fov=len(image_data1[0,:])*scale1/scale2/2.
 #image_data1 = ndimage.gaussian_filter(image_data1, sigma=stepx/scale1, order=0)
 #image_data2 = ndimage.gaussian_filter(image_data2, sigma=stepx/scale2, order=0)
 
-ax1.imshow(image_data1,origin='lower',aspect='equal',cmap='binary',norm=LogNorm())#vmin=thresh,vmax=10.*thresh
-ax1.contour(thresh_map,levels=[thresh],colors='silver',linestyles='dashed')
+ax1.imshow(image_data1,origin='lower',aspect='equal',cmap=newcmp,norm=SymLogNorm(vmin=np.nanmean(image_data1)*0.005,vmax=np.nanmean(image_data1)*500.,linthresh=np.nanmean(image_data1)))#vmin=thresh,vmax=10.*thresh
+ax1.contour(thresh_map,levels=[thresh],colors='silver',linewidths=0.7)
 #ax1.text(0.1, 1.1, 'Active cell: '+str(len_celle), horizontalalignment='center',verticalalignment='center', transform=ax1.transAxes)
-ax2.imshow(image_data2,origin='lower',cmap='binary',norm=LogNorm())#,vmin=np.nanmin(image_data2)*1.2,vmax=np.nanmax(image_data2)*0.2
+ax2.imshow(image_data2,origin='lower',cmap=newcmp,norm=SymLogNorm(vmin=np.nanmean(image_data2)*0.005,vmax=np.nanmean(image_data2)*500.,linthresh=np.nanmean(image_data2)))#,
 #print(thresh)
 ax2.set_xlim(px_fov-w_fov,px_fov+w_fov)
 ax2.set_ylim(py_fov-h_fov,py_fov+h_fov)
@@ -536,6 +578,7 @@ print('H: Create hexagonal grid in ROI')
 print('D: Mask map in ROI')
 print('I: Run PtP analysis with active grids. Output: Plot in out.jpg, out_plot.png, and data series in out.dat')
 print('X: Recenter images')
+print('+/-: Increase/decrease cell size by 0.5 arcsec')
 print('C: Clear grid')
 
 print('---------------------')
