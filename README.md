@@ -92,7 +92,7 @@ archivePrefix = {arXiv},
  
  -Indicate the URL of the GitHub repository as a footnote: 
  ```latex
- \footnote{https://github.com/AIgnesti/PT-REX}
+ \footnote{\url{https://github.com/AIgnesti/PT-REX}}
 ```
 
 
