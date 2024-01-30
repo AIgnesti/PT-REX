@@ -70,7 +70,7 @@ Then, with the cursor on the left panel, press:
 <p align="center">
 <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out_plot.png" width=80% heigth=80%>
 
- <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out.jpg" width=80% heigth=80%>
+ <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out.jpg" width=50% heigth=50%>
 </p>
 
 ## Author
