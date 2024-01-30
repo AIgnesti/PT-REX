@@ -23,7 +23,7 @@ Investigating the spatial correlation between different emissions in an extended
 
 ### Launching the code
 
-PT-REX analyzes two separate images in FITS format. Run the code in the same folder as the two images ans use the following keyword to set the parameters:
+PT-REX analyzes two separate images in FITS format. Run the code in the same folder as the two images and use the following keywords to set the parameters:
 
 *Required*:
 - **-im1**: Set IMAGE1 
@@ -34,8 +34,8 @@ PT-REX analyzes two separate images in FITS format. Run the code in the same fol
   
 *Optional*:
 
-- **-lm**: Set grid overlap with mask [0.0-0.99, default 0.5]
-- **-sm**: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]
+- **-lm**: Set the minimum emission overlap required for each cell [0.0-0.9, default 0.5]
+- **-sm**: Set a Gaussian smoothing sigma size for IMAGE2 [arcsec]
 - **-h** Print help
 
 EXAMPLE: 
