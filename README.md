@@ -69,7 +69,8 @@ Contacts: https://aignesti.github.io/ | alessandro.ignesti@inaf.it
 ## Cite this work
 
  If PT-REX was helpful to your research an acknowledgment would be appreciated:
- -Cite the paper: 
+ 
+ - Cite the paper: 
  ```bibtex
 @ARTICLE{2022NewA...9201732I,
        author = {{Ignesti}, A.},
@@ -90,9 +91,11 @@ archivePrefix = {arXiv},
 }
 ```
  
- -Indicate the URL of the GitHub repository as a footnote: 
+ - Indicate the URL of the GitHub repository as a footnote: 
  ```latex
  \footnote{\url{https://github.com/AIgnesti/PT-REX}}
 ```
+- Refer to the [Astrophysics Source Code Library](https://ascl.net/2110.021)
 
-
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
