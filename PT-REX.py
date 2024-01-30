@@ -203,21 +203,18 @@ def toggle_selector(event):
 				mask = reg1.to_mask(mode='center')
 	
 				weighted_data_1d = mask.get_values(thresh_map)
-			if np.sum(weighted_data_1d)>limit*np.sqrt(3.)*3./2.*r*r:
-					celle.append(center)
-					
-					wx, wy = w1.wcs_pix2world(center.x,center.y, 1)
-#
-					px, py = w2.wcs_world2pix(wx, wy, 1)
-#
-					reg1.plot(ax=ax1, facecolor='blue', edgecolor='dimgrey', lw=2)
-					reg1.plot(ax=ax1,color='gold',fill=True,alpha=0.5)
-					reg2 = hexagon(px,py,r*scale1/scale2)# RectanglePixelRegion(PixCoord(px,py), width=stepx/scale2,height=stepy/scale2)
-					reg2.plot(ax=ax2, facecolor='blue', edgecolor='dimgrey', lw=2)
-					reg2.plot(ax=ax2,color='gold',fill=True,alpha=0.5)
-				
-					
-					
+				if np.sum(weighted_data_1d)>limit*np.sqrt(3.)*3./2.*r*r:
+						celle.append(center)
+						
+						wx, wy = w1.wcs_pix2world(center.x,center.y, 1)
+	#
+						px, py = w2.wcs_world2pix(wx, wy, 1)
+	#
+						reg1.plot(ax=ax1, facecolor='blue', edgecolor='dimgrey', lw=2)
+						reg1.plot(ax=ax1,color='gold',fill=True,alpha=0.5)
+						reg2 = hexagon(px,py,r*scale1/scale2)# RectanglePixelRegion(PixCoord(px,py), width=stepx/scale2,height=stepy/scale2)
+						reg2.plot(ax=ax2, facecolor='blue', edgecolor='dimgrey', lw=2)
+						reg2.plot(ax=ax2,color='gold',fill=True,alpha=0.5)
 				m=m+1
 				
 			n=n+1
