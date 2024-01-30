@@ -1,6 +1,6 @@
-# PT-REX
+# Point-to-point TRend EXtractor (PT-REX)
 
-Point-to-point TRend EXtractor
+
 v 3.0
 
 Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understanding the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed[^1] to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub).
@@ -26,18 +26,18 @@ Investigating the spatial correlation between different emissions in an extended
 
 PT-REX analyzes two separate images in FITS format. Run the code in the same folder as the two images ans use the following keyword to set the parameters:
 
-Required:
-- -im1: Set IMAGE1 
-- -im2: Set IMAGE2 
-- -cel_w: Set cell width [arcsec] 
-- -cel_h: Set cell height [arcsec] 
-- -thr: Set IMAGE1 threshold [IMAGE1 units]
+*Required*:
+- **-im1**: Set IMAGE1 
+- **-im2**: Set IMAGE2 
+- **-cel_w**: Set cell width [arcsec] 
+- **-cel_h**: Set cell height [arcsec] 
+- **-thr**: Set IMAGE1 threshold [IMAGE1 units]
   
-Optional:
+*Optional*:
 
-- -lm: Set grid overlap with mask [0.0-0.99, default 0.5]
-- -sm: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]
-- -h Print help
+- **-lm**: Set grid overlap with mask [0.0-0.99, default 0.5]
+- **-sm**: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]
+- **-h** Print help
 
 EXAMPLE: 
 ```bash
@@ -53,19 +53,19 @@ click  -->  release on Left panel: Define Region of Interest (ROI)
 
 Then, press:
 
-- W/w: Create a rectangular grid in ROI
-- H/h: Create a hexagonal grid in ROI
-- D/d: Mask ROI
-- I/i: Run PtP analysis with active cells. Surface brightness is computed as the sum of pixel values divided by cell area.
+- **W/w**: Create a rectangular grid in ROI
+- **H/h**: Create a hexagonal grid in ROI
+- **D/d**: Mask ROI
+- **I/i**: Run PtP analysis with active cells. Surface brightness is computed as the sum of pixel values divided by cell area.
   Output:
   
   - out.jpg: Scatter plot with best-fit slope
   - out_plot.png: IMAGE1 and IMAGE2 with cells used in PtP analysis
   - out.dat: Data readout 
   - out_grid.reg: grid in DS9 format for IMAGE1
-- X/x: Recenter images in ROI
-- +/-: Increase/decrease cell size by 0.5 arcsec
-- C/c: Clear grid and masks
+- **X/x**: Recenter images in ROI
+- **+/-**: Increase/decrease cell size by 0.5 arcsec
+- **C/c**: Clear grid and masks
 <p align="center">
 <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out_plot.png" width=80% heigth=80%>
 </p>
