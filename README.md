@@ -45,7 +45,7 @@ python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 
 ```
 ### Performing the analysis
 
-- Left panel: IMAGE1. The silver contour shows the threshold level
+- Left panel: IMAGE1. The silver contour indicates the threshold level.
 - Right panel: IMAGE2 
 
 Interactive commands:
