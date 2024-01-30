@@ -51,7 +51,7 @@ python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 
 Interactive commands:
 click  -->  release on Left panel: Define Region of Interest (ROI)
 
-Then, press:
+Then, with the cursor on the left panel, press:
 
 - **W/w**: Create a rectangular grid in ROI
 - **H/h**: Create a hexagonal grid in ROI
