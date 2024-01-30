@@ -32,7 +32,9 @@ Required:
 - -cel_w: Set cell width [arcsec] 
 - -cel_h: Set cell height [arcsec] 
 - -thr: Set IMAGE1 threshold [IMAGE1 units]
+  
 Optional:
+
 - -lm: Set grid overlap with mask [0.0-0.99, default 0.5]
 - -sm: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]
 - -h Print help
@@ -48,7 +50,9 @@ python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 
 
 Interactive commands:
 click  -->  release on Left panel: Define region of interest (ROI)
+
 Then, press:
+
 - W/w: Create a rectangular grid in ROI
 - H/h: Create a hexagonal grid in ROI
 - D/d: Add mask 
