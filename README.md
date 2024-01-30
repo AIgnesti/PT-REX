@@ -56,7 +56,11 @@ Then, press:
 - W/w: Create a rectangular grid in ROI
 - H/h: Create a hexagonal grid in ROI
 - D/d: Mask ROI
-- I/i: Run PtP analysis with active cells. Surface brightness is computed as the sum of pixel values divided by cell area.  Output: Correlation plot in out.jpg, maps in out_plot.png, data series in out.dat, and grid in DS9 format in out_grid.reg
+- I/i: Run PtP analysis with active cells. Surface brightness is computed as the sum of pixel values divided by cell area.  Output:
+  -Correlation plot in out.jpg
+  - maps in out_plot.png
+  - data series in out.dat
+  - grid in DS9 format in out_grid.reg
 - X/x: Recenter images in ROI
 - +/-: Increase/decrease cell size by 0.5 arcsec
 - C/c: Clear grid and masks
