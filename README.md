@@ -49,17 +49,17 @@ python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 
 - Right panel: IMAGE2 
 
 Interactive commands:
-click  -->  release on Left panel: Define region of interest (ROI)
+click  -->  release on Left panel: Define Region of Interest (ROI)
 
 Then, press:
 
 - W/w: Create a rectangular grid in ROI
 - H/h: Create a hexagonal grid in ROI
-- D/d: Add mask 
+- D/d: Mask ROI
 - I/i: Run PtP analysis with active cells. Surface brightness is computed as the sum of pixel values divided by cell area.  Output: Correlation plot in out.jpg, maps in out_plot.png, data series in out.dat, and grid in DS9 format in out_grid.reg
-- X/x: Recenter images
-+/-: Increase/decrease cell size by 0.5 arcsec
-- C/c: Clear grid
+- X/x: Recenter images in ROI
+- +/-: Increase/decrease cell size by 0.5 arcsec
+- C/c: Clear grid and masks
 <p align="center">
 <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out_plot.png" width=80% heigth=80%>
 </p>
