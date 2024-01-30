@@ -7,6 +7,7 @@ Investigating the spatial correlation between different emissions in an extended
 <p align="center">
 <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/%20logo2.png" width=30% heigth=30%>
 </p>
+
 ## Requirements
 
 - Python 3.7
