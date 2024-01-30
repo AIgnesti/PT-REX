@@ -3,7 +3,7 @@
 Point-to-point TRend EXtractor
 v 3.0
 
-Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understand the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub).
+Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understand the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed[^1] to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub).
 <p align="center">
 <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/%20logo2.png" width=30% heigth=30%>
 </p>
@@ -98,4 +98,8 @@ archivePrefix = {arXiv},
 - Refer to the [Astrophysics Source Code Library](https://ascl.net/2110.021)
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+See LICENSE .
+
+
+
+[^1]: This code was developed by a researcher for research purposes and may not be as robust as software developed by professional programmers. So use it at your own risk. If you encounter any issues, please consider them as unplanned features. If you would like to contribute, find things that are broken, or have any suggestions for this work, you can contact me at alessandro.ignesti@inaf.it .
