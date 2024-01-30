@@ -15,18 +15,7 @@ What's new:
 -v2.1 : Improved fitting algorithm to handle datasets with large dynamical range (> 2 orders of magnitude);
 -v2.0 : First public release.
 ##########################
-[FOR PT-REX 3.0]
-  REQUIRMENTS:
-  -Python 3.*
-  -matplotlib.pyplot
-  -astropy
-  -numpy 
-  -scipy
-  -bces (https://github.com/rsnemmen/BCES)
-  -nmms
-  EXAMPLE: python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0  
-##########################
-[FOR PT-REX 2.2]
+
   REQUIRMENTS:
   -Python 3.*
   -CASA 6.0 Python modular version (https://casa.nrao.edu/casadocs/casa-6.1.0/usingcasa/obtaining-and-installing)
