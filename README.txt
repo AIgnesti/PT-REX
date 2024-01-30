@@ -10,7 +10,6 @@ For further information check https://www.sciencedirect.com/science/article/pii/
  -Indicate the URL of the GitHub repository as a footnote: \footnote{https://github.com/AIgnesti/PT-REX}
 ##########################
 What's new:
-- PT-REX v3.0
 -v2.2 : Bug fix. 
 -v2.1 : Improved fitting algorithm to handle datasets with large dynamical range (> 2 orders of magnitude);
 -v2.0 : First public release.
