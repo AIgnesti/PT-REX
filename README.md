@@ -3,10 +3,10 @@
 Point-to-point TRend EXtractor
 v 3.0
 
-Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understand the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub) .
-
-<img src="https://github.com/AIgnesti/PT-REX/blob/master/images/%20logo2.png" width=60% heigth=60%>
-
+Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understand the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub).
+<p align="center">
+<img src="https://github.com/AIgnesti/PT-REX/blob/master/images/%20logo2.png" width=30% heigth=30%>
+</p>
 ## Requirements
 
 - Python 3.7
@@ -55,9 +55,9 @@ Then, press:
 - X/x: Recenter images
 +/-: Increase/decrease cell size by 0.5 arcsec
 - C/c: Clear grid
-
-<img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out_plot.png" width=60% heigth=60%>
-
+<p align="center">
+<img src="https://github.com/AIgnesti/PT-REX/blob/master/images/out_plot.png" width=80% heigth=80%>
+</p>
 
 ## Author
 Author: Alessandro Ignesti
