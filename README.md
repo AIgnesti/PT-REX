@@ -3,7 +3,7 @@
 Point-to-point TRend EXtractor
 v 3.0
 
-Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understand the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed[^1] to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub).
+Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understanding the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed[^1] to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub).
 <p align="center">
 <img src="https://github.com/AIgnesti/PT-REX/blob/master/images/%20logo2.png" width=30% heigth=30%>
 </p>
@@ -43,16 +43,16 @@ python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 
 ```
 ### Performing the analysis
 
-- Left panel: IMAGE1. The silver contour show the threshold level
+- Left panel: IMAGE1. The silver contour shows the threshold level
 - Right panel: IMAGE2 
 
 Interactive commands:
 click  -->  release on Left panel: Define region of interest (ROI)
 Then, press:
-- W/w: Create rectangular grid in ROI
-- H/h: Create hexagonal grid in ROI
+- W/w: Create a rectangular grid in ROI
+- H/h: Create a hexagonal grid in ROI
 - D/d: Add mask 
-- I/i: Run PtP analysis with active cells. Surface brigthenss is computed as sum of pixel values divided by cell area.  Output: Correlation plot in out.jpg, maps in out_plot.png, data series in out.dat, and grid in DS9 format in out_grid.reg
+- I/i: Run PtP analysis with active cells. Surface brightness is computed as the sum of pixel values divided by cell area.  Output: Correlation plot in out.jpg, maps in out_plot.png, data series in out.dat, and grid in DS9 format in out_grid.reg
 - X/x: Recenter images
 +/-: Increase/decrease cell size by 0.5 arcsec
 - C/c: Clear grid
