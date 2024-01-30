@@ -109,7 +109,7 @@ archivePrefix = {arXiv},
 ## License
 See LICENSE .
 
-[^1]:This code was developed by a researcher for research purposes and may not be as robust as software developed by professional programmers. So use it at your own risk. If you encounter any issues, please consider them as unplanned features. If you would like to contribute, find things that are broken, or have any suggestions for this work, you can contact me at alessandro.ignesti@inaf.it .
+[^1]: I study stuff in galaxy clusters, I am not a professional programmer, and this code was developed for research purposes only. So be aware that the code is not completely stable and use it at your own risk. If you encounter any issues, please consider them as unplanned features, and if you would like to contribute, find things that are broken, or have any suggestions for this work, you can contact me at alessandro.ignesti@inaf.it .
 
 
 
