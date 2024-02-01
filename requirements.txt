@@ -1,0 +1,9 @@
+#Required python packages for PT-REX.
+#Run python -m pip install -r requirements.txt
+matplotlib==3.5.3
+numpy==1.21.5
+astropy==4.2.1
+regions==0.5
+bces==1.0.3
+scipy==1.7.3
+nmmn==1.2.1
