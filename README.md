@@ -19,6 +19,11 @@ Investigating the spatial correlation between different emissions in an extended
 - scipy 1.7.3
 - nmmn 1.2.1
 
+They can be installed by running:
+
+```bash
+python -m pip install -r requirements.txt
+```
 
 ## Running PT-REX
 
