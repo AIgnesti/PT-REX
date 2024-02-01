@@ -61,7 +61,7 @@ Then, with the cursor on the left panel, press:
 - **W/w**: Create a rectangular grid in ROI
 - **H/h**: Create a hexagonal grid in ROI
 - **D/d**: Mask ROI
-- **I/i**: Run PtP analysis with active cells. Surface brightness $I_1$ and $I_2$ are computed as the sum of pixel values divided by cell area. The corresponding error, $\sigma_1$ and $\sigma_2$ are derived from the rms in each cell. The best-fit correlation log $I_2=k\cdot$ log $I_1+A$ is derived with the orthogonal BCES algorithm. An estimate of the best-fitting $k$ and the Spearman and Pearson ranks are presented in the legend of the scatter plot.
+- **I/i**: Run PtP analysis with active cells. Surface brightness $I_1$ and $I_2$ are computed as the sum of pixels in each cell divided by the cell area in units of arcsec$^2$. The corresponding error, $\sigma_1$ and $\sigma_2$ are derived from the RMS in each cell. The best-fit correlation log $I_2=k\cdot$ log $I_1+A$ is derived with the orthogonal BCES algorithm. An estimate of the best-fitting $k$ and the Spearman and Pearson ranks are presented in the legend of the scatter plot.
   
   Output:
   
