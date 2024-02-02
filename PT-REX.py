@@ -356,7 +356,7 @@ def toggle_selector(event):
 		lcb,ucb,x_range=nmmn.stats.confband(S1,S2,a[3],b[3],conf=0.68)
 		ax3.errorbar(S1,S2,xerr=e_s1,yerr=e_s2,linewidth=0,elinewidth=1,capsize=1,color='dimgrey',marker='h')
 		
-		ax3.plot(x_range,pow(x_range,a[3],b[3]),linewidth=2,color='dodgerblue',label=r' $k$='+str(round(a[3],1))+r'$\pm$'+str(round(aerr[3],1))+r' $A$='+str(round(b[3],1))+r'$\pm$'+str(round(berr[3],1))+'\n Spearman: '+str(round(spear[0],2))+'\n Pearson: '+str(round(per[0],2)))
+		ax3.plot(x_range,pow(x_range,a[3],b[3]),linewidth=2,color='dodgerblue',label=r' $k$='+str(round(a[3],2))+r'$\pm$'+str(round(aerr[3],2))+r' $A$='+str(round(b[3],2))+r'$\pm$'+str(round(berr[3],2))+'\n Spearman: '+str(round(spear[0],2))+'\n Pearson: '+str(round(per[0],2)))
 		plt.fill_between(x_range, lcb, ucb, alpha=0.3, facecolor='blue')
 		ax3.legend(frameon=False)
 		ax3.tick_params(which='major', width=1.00, length=5,right=True,top=True)
