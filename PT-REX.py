@@ -1,7 +1,7 @@
 #!usr/bin/python
 ###########################
 #Author: Alessandro Ignesti
-#Point-to-point TRend EXtractorn V. 3.0
+#Point-to-point TRend EXtractorn V. 3.1
 #For reference https://www.sciencedirect.com/science/article/pii/S1384107621001457 
 ###########################
 
@@ -44,6 +44,7 @@ region_type='rectangle'
 stepx = "none"
 stepy ='none'
 thresh='none'
+grid='none'
 sm_g='none'
 limit=0.5
 image_file1='none'#'JW100new_Ha_5x5.fits'
@@ -65,6 +66,8 @@ if("-im2" in  sys.argv):
 	image_file2 = sys.argv[sys.argv.index("-im2") + 1] 
 if("-lm" in sys.argv):
 	limit= float(sys.argv[sys.argv.index("-lm") + 1] )
+if("-grid" in sys.argv):
+	grid = sys.argv[sys.argv.index("-grid") + 1]
 if("-h" in  sys.argv or len(sys.argv)==1):
 	print('---------------------')
 	print('      PT-REX 3.0     ')
@@ -150,6 +153,7 @@ def line_select_callback(eclick, erelease):
 	
 	print("(%3.2f, %3.2f) --> (%3.2f, %3.2f)" % (x1, y1, x2, y2))
 	
+
 
 def toggle_selector(event):
 	global thresh_map
@@ -340,7 +344,7 @@ def toggle_selector(event):
 		with open(r'out.dat', 'w') as fp:
 			for i in range(0,ran):
 				# write each item on a new line
-				fp.write(str(S1[i])+' '+str(e_s1[i])+' '+str(S2[i])+' '+str(e_s2[i])+'\n')
+				fp.write(str(S1[i]*area)+' '+str(e_s1[i])+' '+str(S2[i]*area)+' '+str(e_s2[i])+' '+str(area)+'\n')
 		
 		e_s1=np.array(e_s1)/np.array(S1)
 		e_s2=np.array(e_s2)/np.array(S2)
@@ -445,6 +449,13 @@ ax1.set_ylabel('Pixel coord.')
 ax2.set_xlabel('Pixel coord.')
 ax2.set_ylabel('Pixel coord.')
 
+
+
+
+
+
+
+
 print('---------------------')
 print('Interactive commands:')
 print("click  -->  release: Define region of interest (ROI)")
@@ -460,14 +471,78 @@ print('---------------------')
 celle=[]
 # drawtype is 'box' or 'line' or 'none'
 toggle_selector.RS = RectangleSelector(ax1, line_select_callback,
-									    useblit=True,
+										useblit=True,
 									   button=[1,3],  # don't use middle button
 									   minspanx=5, minspany=5,
 									   spancoords='pixels',
 									   interactive=True,
 									   props=dict(linestyle='-', color='dodgerblue', 
-                                       fill=True, alpha=.4,linewidth=2))
+									   fill=True, alpha=.4,linewidth=2))
 plt.connect('key_press_event', toggle_selector)
 plt.tight_layout()
 
+#plt.show()
+
+######GRID
+if grid!='none':
+	print('LOADING GRID: ',grid)
+	S1=[]
+	S2=[]
+	e_s1=[]
+	e_s2=[]
+	with open(grid) as f:
+		lines_grid = f.readlines()[3:]
+	
+	for k in range(0, len(lines_grid)):
+
+		regions_str = '# Region file format: DS9\nfk5\n'+str(lines_grid[k])
+		reg = Regions.parse(regions_str, format='ds9')
+		reg1=reg[0].to_pixel(w1)
+		reg2=reg[0].to_pixel(w2)
+		mask1 = reg1.to_mask(mode='center')
+
+		mask2 = reg2.to_mask(mode='center')
+		serie_data_1 = mask1.get_values(image_data1)
+		serie_data_2 = mask2.get_values(image_data2)
+		v1=np.nansum(serie_data_1)/reg1.area/scale1/scale1
+		v2=np.nansum(serie_data_2)/reg2.area/scale2/scale2
+		e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))
+		e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))
+
+		if v1>0. and v2>0. and np.isnan(v1)==False and np.isnan(v2)==False and e_v1>0. and e_v2>0. and np.isnan(e_v1)==False and np.isnan(e_v2)==False:
+
+			S1.append(v1)
+			S2.append(v2)
+			e_s1.append(e_v1)
+			e_s2.append(e_v2)
+			reg1.plot(ax=ax1, facecolor='blue', edgecolor='dimgrey', lw=2)
+			reg1.plot(ax=ax1, color='gold',fill=True,alpha=0.5)
+			reg2.plot(ax=ax2, facecolor='blue', edgecolor='dimgrey', lw=2)
+			reg2.plot(ax=ax2, color='gold',fill=True,alpha=0.5)
+				
+	plt.draw()
+	#plt.savefig('out_plot.png',bbox_inches='tight',pad_inches=0.1,dpi=200)
+	e_s1=np.array(e_s1)/np.array(S1)
+	e_s2=np.array(e_s2)/np.array(S2)
+	S1=np.log(S1)
+	S2=np.log(S2)	
+	spear = stats.spearmanr(S1, S2)
+	per=stats.pearsonr(S1,S2)
+	x_range=np.linspace(np.min(S1),np.max(S1),100)
+	fig2,ax3=plt.subplots()
+	a,b,aerr,berr,covab=BCES.bcesp(S1,e_s1,S2,e_s2,np.zeros_like(S1),10000)
+	fitm=np.array([a[3],b[3]])	
+	covm=np.array([ (aerr[3]**2,covab[3]), (covab[3],berr[3]**2) ])	
+	lcb,ucb,x_range=nmmn.stats.confband(S1,S2,a[3],b[3],conf=0.68)
+	ax3.errorbar(S1,S2,xerr=e_s1,yerr=e_s2,linewidth=0,elinewidth=1,capsize=1,color='dimgrey',marker='h')
+	
+	ax3.plot(x_range,pow(x_range,a[3],b[3]),linewidth=2,color='dodgerblue',label=r' $k$='+str(round(a[3],2))+r'$\pm$'+str(round(aerr[3],2))+r' $A$='+str(round(b[3],2))+r'$\pm$'+str(round(berr[3],2))+'\n Spearman: '+str(round(spear[0],2))+'\n Pearson: '+str(round(per[0],2)))
+	plt.fill_between(x_range, lcb, ucb, alpha=0.3, facecolor='blue')
+	ax3.legend(frameon=False)
+	ax3.tick_params(which='major', width=1.00, length=5,right=True,top=True)
+
+	ax3.set_xlabel(r'Log (sum$_{IMG1}$/arcsec$^2$)')
+	ax3.set_ylabel(r'Log (sum$_{IMG2}$/arcsec$^2$)')
+	fig2.savefig('out_'+grid+'.jpg')	
+#######
 plt.show()
