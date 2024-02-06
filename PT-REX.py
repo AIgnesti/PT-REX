@@ -543,6 +543,6 @@ if grid!='none':
 
 	ax3.set_xlabel(r'Log (sum$_{IMG1}$/arcsec$^2$)')
 	ax3.set_ylabel(r'Log (sum$_{IMG2}$/arcsec$^2$)')
-	fig2.savefig('out_'+grid+'.jpg')	
+	fig2.savefig('out_'+grid.replace('.reg','')+'.jpg')	
 #######
 plt.show()
