@@ -521,6 +521,11 @@ if grid!='none':
 			reg2.plot(ax=ax2, color='gold',fill=True,alpha=0.5)
 				
 	plt.draw()
+	ran=len(S1)
+	with open(r'out'+grid.replace('.reg','')+'.dat', 'w') as fp:
+		for i in range(0,ran):
+			fp.write(str(S1[i]*reg1.area/scale1/scale1)+' '+str(e_s1[i])+' '+str(S2[i]*reg1.area/scale1/scale1)+' '+str(e_s2[i])+' '+str(reg1.area/scale1/scale1)+'\n')
+	
 	#plt.savefig('out_plot.png',bbox_inches='tight',pad_inches=0.1,dpi=200)
 	e_s1=np.array(e_s1)/np.array(S1)
 	e_s2=np.array(e_s2)/np.array(S2)
