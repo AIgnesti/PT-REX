@@ -1,6 +1,6 @@
 # Point-to-point TRend EXtractor (PT-REX)
 
-*v 3.0*
+*v 3.1*
 
 Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understanding the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed[^1] to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub)[^2].
 
@@ -42,6 +42,7 @@ PT-REX analyzes two separate images in FITS format. Run the code in the same fol
 
 - **-lm**: Set the minimum emission overlap required for each cell [0.0-0.9, default 0.5]
 - **-sm**: Set a Gaussian smoothing sigma size for IMAGE2 [arcsec]
+- **-grid**: Insert the name of a pre-existing grid in DS9 fk5 format to be loaded on the images. The corresponding ptp anlysis scatter plot is produced and saved in out_[grid name].jpg
 - **-h** Print help
 
 EXAMPLE: 
@@ -61,13 +62,13 @@ Then, with the cursor on the left panel, press:
 - **W/w**: Create a rectangular grid in ROI
 - **H/h**: Create a hexagonal grid in ROI
 - **D/d**: Mask ROI
-- **I/i**: Run PtP analysis with active cells. Surface brightness $I_1$ and $I_2$ are computed as the sum of pixels in each cell divided by the cell area in units of arcsec $^2$ . The corresponding error, $\sigma_1$ and $\sigma_2$ are derived from the RMS in each cell. The best-fit correlation log $I_2=k\cdot$ log $I_1+A$ is derived with the orthogonal BCES algorithm. An estimate of the best-fitting $k$ and the Spearman and Pearson ranks are presented in the legend of the scatter plot.
+- **I/i**: Run PtP analysis with active cells. Surface brightness $I_1$ and $I_2$ are computed as the sum of pixels in each cell divided by the cell area in units of arcsec $^2$ . The corresponding error, $\sigma_1$ and $\sigma_2$ are derived from the RMS in each cell. The best-fit correlation log $I_2=k\cdot$ log $I_1+A$ is derived with the orthogonal BCES algorithm. An estimate of the best-fitting $k$ and the Spearman and Pearson ranks are presented in the legend of the scatter plot. The data readings can be found in out.dat where they can be post-processed to be adapted to different science cases.
   
   Output:
   
   - out.jpg: Scatter plot with best-fit slope
   - out_plot.png: IMAGE1 and IMAGE2 with cells used in PtP analysis
-  - out.dat: Data readout in the format $I_1$  $\sigma_1$  $I_2$  $\sigma_2$  
+  - out.dat: Data readout in the format $sum_1$  $\sigma_1$  $sum_2$  $\sigma_2$ $cell area$ (arcsec$^2$) 
   - out_grid.reg: grid in DS9 format for IMAGE1
 - **X/x**: Recenter images in ROI
 - **+/-**: Increase/decrease cell size by 0.5 arcsec
