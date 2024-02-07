@@ -69,7 +69,7 @@ Then, with the cursor on the left panel, press:
   - out.jpg: Scatter plot with best-fit slope
   - out_plot.png: IMAGE1 and IMAGE2 with cells used in PtP analysis
   - out.dat: Data readout in the format SUM $_1$  $\sigma_1$  SUM $_2$  $\sigma_2$ cell area (arcsec $^2$ ) 
-  - out_grid.reg: grid in DS9 format for IMAGE1 (fk5 format for rectangular grid and IMAGE format for hexagonal grid)
+  - out_grid.reg: grid in DS9 fk5 format
 - **X/x**: Recenter images in ROI
 - **+/-**: Increase/decrease cell size by 0.5 arcsec
 - **C/c**: Clear grid and masks
