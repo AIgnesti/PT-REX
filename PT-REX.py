@@ -45,6 +45,7 @@ stepx = "none"
 stepy ='none'
 thresh='none'
 grid='none'
+mask_g='none'
 sm_g='none'
 limit=0.5
 image_file1='none'#'JW100new_Ha_5x5.fits'
@@ -68,6 +69,8 @@ if("-lm" in sys.argv):
 	limit= float(sys.argv[sys.argv.index("-lm") + 1] )
 if("-grid" in sys.argv):
 	grid = sys.argv[sys.argv.index("-grid") + 1]
+if("-mask" in sys.argv):
+	mask_g = sys.argv[sys.argv.index("-mask") + 1]
 if("-h" in  sys.argv or len(sys.argv)==1):
 	print('---------------------')
 	print('      PT-REX 3.0     ')
@@ -81,8 +84,10 @@ if("-h" in  sys.argv or len(sys.argv)==1):
 	print('Optional:')
 	print('-lm: Set grid overlap with mask [0.0-0.99, default 0.5]')
 	print('-sm: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]')
+	print('-grid: Load a grid from DS9 FK5 region file')
+	print('-mask: Load a mask from DS9 FK5 region file')
 	print('-h Print help')
-	print('EXAMPLE: python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0')
+	print('EXAMPLE: python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0 -lm 0.7 -sm 3.0 -mask mask.reg -grid ds9_grid.reg')
 	print('---------------------')
 	exit()
 if('-pt-rex' in sys.argv):
@@ -243,6 +248,10 @@ def toggle_selector(event):
 	if event.key in ['D', 'd'] and toggle_selector.RS.active:
 		reg_d,thresh_map=thr_map_update(x1,y1,x2,y2,thresh_map)
 		reg_d.plot(ax=ax1, color='red',alpha=0.4, fill=True)
+		reg2_d=reg_d.to_sky(w1)
+		reg2=reg2_d.to_pixel(w2)
+		reg2.plot(ax=ax2, color='red',alpha=0.4, fill=True)
+		
 		thresh_map[thresh_map<0.]=0.
 		plt.draw()
 
@@ -481,7 +490,22 @@ plt.connect('key_press_event', toggle_selector)
 plt.tight_layout()
 
 #plt.show()
-
+######MASK
+if mask_g!='none':
+	print('LOADING MASK: ',mask_g)
+	with open(mask_g) as f:
+		lines_mask = f.readlines()[3:]
+	
+	for k in range(0, len(lines_mask)):
+		regions_str = '# Region file format: DS9\nfk5\n'+str(lines_mask[k])
+		reg = Regions.parse(regions_str, format='ds9')
+		reg1=reg[0].to_pixel(w1)
+		reg2=reg[0].to_pixel(w2)
+		mask_d = reg1.to_mask()
+		thresh_map=np.subtract(thresh_map,mask_d.to_image(thresh_map.shape))
+		reg1.plot(ax=ax1, color='red',alpha=0.4, fill=True)
+		reg2.plot(ax=ax2, color='red',alpha=0.4, fill=True)
+		thresh_map[thresh_map<0.]=0.
 ######GRID
 if grid!='none':
 	print('LOADING GRID: ',grid)
@@ -507,8 +531,10 @@ if grid!='none':
 		v2=np.nansum(serie_data_2)/reg2.area/scale2/scale2
 		e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))
 		e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))
+		mask_ch= mask1.get_values(thresh_map)
+		
 
-		if v1>0. and v2>0. and np.isnan(v1)==False and np.isnan(v2)==False and e_v1>0. and e_v2>0. and np.isnan(e_v1)==False and np.isnan(e_v2)==False:
+		if v1>0. and v2>0. and np.isnan(v1)==False and np.isnan(v2)==False and e_v1>0. and e_v2>0. and np.isnan(e_v1)==False and np.isnan(e_v2)==False and np.sum(mask_ch)>limit*reg1.area*scale1*scale1:
 
 			S1.append(v1)
 			S2.append(v2)
@@ -549,5 +575,7 @@ if grid!='none':
 	ax3.set_xlabel(r'Log (sum$_{IMG1}$/arcsec$^2$)')
 	ax3.set_ylabel(r'Log (sum$_{IMG2}$/arcsec$^2$)')
 	fig2.savefig('out_'+grid.replace('.reg','')+'.jpg')	
+
+
 #######
 plt.show()
