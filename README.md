@@ -42,7 +42,7 @@ PT-REX analyzes two separate images in FITS format. Run the code in the same fol
 
 - **-lm**: Set the minimum emission overlap required for each cell [0.0-0.9, default 0.5]
 - **-sm**: Set a Gaussian smoothing sigma size for IMAGE2 [arcsec]
-- **-grid**: Insert the name of a pre-existing grid in DS9 fk5 format to be loaded on the images. The corresponding ptp analysis scatter plot is produced and saved in out_[grid name].jpg, and the data readings are saved in out_[grid name].dat
+- **-grid**: Insert the name of a pre-existing grid, or list of regions, in DS9 fk5 format to be loaded on the images. The corresponding ptp analysis scatter plot is produced and saved in out_[grid name].jpg, and the data readings are saved in out_[grid name].dat
 - **-h** Print help
 
 EXAMPLE: 
