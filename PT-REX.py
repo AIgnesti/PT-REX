@@ -284,12 +284,9 @@ def toggle_selector(event):
 		
 		grid=open('out_grid.reg', 'w')
 		grid.write('#Region file format: DS9 version 4.1\n')
-		grid.write('global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
+		grid.write('global color=black dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1\n')
 		
-		if region_type=='rectangle':
-			grid.write('fk5\n')
-		if region_type=='hexagon':
-			grid.write('image\n')
+		grid.write('fk5\n')
 		S1=[]
 		S2=[]
 		e_s1=[]
@@ -312,7 +309,9 @@ def toggle_selector(event):
 				reg2=hexagon(px,py,r/scale2*scale1)
 
 				area=3./2.*np.sqrt(3.)*r*r*scale1**2
-				grid.write('polygon('+str(reg1.vertices[0].x)+','+str(reg1.vertices[0].y)+','+str(reg1.vertices[1].x)+','+str(reg1.vertices[1].y)+','+str(reg1.vertices[2].x)+','+str(reg1.vertices[2].y)+','+str(reg1.vertices[3].x)+','+str(reg1.vertices[3].y)+','+str(reg1.vertices[4].x)+','+str(reg1.vertices[4].y)+','+str(reg1.vertices[5].x)+','+str(reg1.vertices[5].y)+')\n')
+				reg1_s=reg1.to_sky(w1)
+				grid.write('polygon('+str(reg1_s.vertices[0].ra)+','+str(reg1_s.vertices[0].dec)+','+str(reg1_s.vertices[1].ra)+','+str(reg1_s.vertices[1].dec)+','+str(reg1_s.vertices[2].ra)+','+str(reg1_s.vertices[2].dec)+','+str(reg1_s.vertices[3].ra)+','+str(reg1_s.vertices[3].dec)+','+str(reg1_s.vertices[4].ra)+','+str(reg1_s.vertices[4].dec)+','+str(reg1_s.vertices[5].ra)+','+str(reg1_s.vertices[5].dec)+')\n')
+				#grid.write('polygon('+str(reg1.vertices[0].x)+','+str(reg1.vertices[0].y)+','+str(reg1.vertices[1].x)+','+str(reg1.vertices[1].y)+','+str(reg1.vertices[2].x)+','+str(reg1.vertices[2].y)+','+str(reg1.vertices[3].x)+','+str(reg1.vertices[3].y)+','+str(reg1.vertices[4].x)+','+str(reg1.vertices[4].y)+','+str(reg1.vertices[5].x)+','+str(reg1.vertices[5].y)+')\n')
 			mask1 = reg1.to_mask(mode='center')
 
 			mask2 = reg2.to_mask(mode='center')
@@ -523,8 +522,9 @@ if grid!='none':
 	plt.draw()
 	ran=len(S1)
 	with open(r'out'+grid.replace('.reg','')+'.dat', 'w') as fp:
-		for i in range(0,ran):
-			fp.write(str(S1[i]*reg1.area/scale1/scale1)+' '+str(e_s1[i])+' '+str(S2[i]*reg1.area/scale1/scale1)+' '+str(e_s2[i])+' '+str(reg1.area/scale1/scale1)+'\n')
+			for i in range(0,ran):
+				# write each item on a new line
+				fp.write(str(S1[i]*reg1.area/scale1/scale1)+' '+str(e_s1[i])+' '+str(S2[i]*reg1.area/scale1/scale1)+' '+str(e_s2[i])+' '+str(reg1.area/scale1/scale1)+'\n')
 	
 	#plt.savefig('out_plot.png',bbox_inches='tight',pad_inches=0.1,dpi=200)
 	e_s1=np.array(e_s1)/np.array(S1)
