@@ -71,6 +71,8 @@ Then, with the cursor on the left panel, press:
   - out_plot.png: IMAGE1 and IMAGE2 with cells used in PtP analysis
   - out.dat: Data readout in the format SUM $_1$  $\sigma_1$  SUM $_2$  $\sigma_2$ cell area (arcsec $^2$ ) 
   - out_grid.reg: grid in DS9 fk5 format
+  **Note:** Outputs are automatically overwritten with each new analysis
+    
 - **X/x**: Recenter images in ROI
 - **+/-**: Increase/decrease cell size by 0.5 arcsec
 - **C/c**: Clear grid and masks
