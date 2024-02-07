@@ -42,12 +42,13 @@ PT-REX analyzes two separate images in FITS format. Run the code in the same fol
 
 - **-lm**: Set the minimum emission overlap required for each cell [0.0-0.9, default 0.5]
 - **-sm**: Set a Gaussian smoothing sigma size for IMAGE2 [arcsec]
+- **-mask**: Load a pre-existing mask from a DS9 FK5 region file
 - **-grid**: Insert the name of a pre-existing grid, or list of regions, in DS9 fk5 format to be loaded on the images. The corresponding ptp analysis scatter plot is produced and saved in out_[grid name].jpg, and the data readings are saved in out_[grid name].dat
 - **-h** Print help
 
 EXAMPLE: 
 ```bash
-python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0
+python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0 -lm 0.7 -sm 3.0 -mask mask.reg -grid ds9_grid.reg
 ```
 ### Performing the analysis
 
