@@ -7,3 +7,4 @@ regions
 bces
 scipy
 nmmn
+progress
