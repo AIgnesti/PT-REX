@@ -9,7 +9,7 @@ Investigating the spatial correlation between different emissions in an extended
 </p>
 
 ## Requirements
-PT-REX is a Python 3 code which requires the following packages:
+PT-REX is a Python 3.x code which requires the following packages:
 
 - matplotlib 
 - numpy 
@@ -17,7 +17,8 @@ PT-REX is a Python 3 code which requires the following packages:
 - regions 
 - bces 
 - scipy 
-- nmmn 
+- nmmn
+- progress
 
 They can be installed by running:
 
