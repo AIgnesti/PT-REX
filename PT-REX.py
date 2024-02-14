@@ -1,8 +1,10 @@
 #!usr/bin/python
 ###########################
 #Author: Alessandro Ignesti
-#Point-to-point TRend EXtractorn V. 3.1
-#For reference https://www.sciencedirect.com/science/article/pii/S1384107621001457 
+#Point-to-point TRend EXtractorn V. 3.2
+#For reference:
+#https://www.sciencedirect.com/science/article/pii/S1384107621001457 
+#https://github.com/AIgnesti/PT-REX
 ###########################
 
 from matplotlib.widgets import RectangleSelector
@@ -22,6 +24,7 @@ from astropy.wcs import WCS
 from astropy.wcs import utils
 from astropy.coordinates import ICRS, Galactic, FK4, FK5  # Low-level frames
 import bces.bces as BCES
+from scipy.stats import norm
 import scipy.ndimage as ndimage
 from astropy.coordinates import Angle, Latitude, Longitude  # Angles
 from regions import Regions
@@ -32,7 +35,18 @@ import os
 from matplotlib import cm
 from scipy import stats
 import warnings
+from progress.bar import Bar
 warnings.filterwarnings("ignore")
+warnings.simplefilter("ignore", category=Warning)
+
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+# Restore
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
+
 
 cmpa = cm.get_cmap('Blues', 128)
 newcolors = cmpa(np.linspace(0, 1, 10))
@@ -135,7 +149,9 @@ def thr_map_update(x1,y1,x2,y2,thresh_map_l):
 	
 
 	return reg_d,thresh_map_l
-
+def mc_inp():
+	val=int(input('Iterations: '))
+	return val
 def pow(x,a,b):
 	return a*x+b
 def func(x): return x[1]*x[0]+x[2]
@@ -156,7 +172,7 @@ def line_select_callback(eclick, erelease):
 	x1, y1 = eclick.xdata, eclick.ydata
 	x2, y2 = erelease.xdata, erelease.ydata
 	
-	print("(%3.2f, %3.2f) --> (%3.2f, %3.2f)" % (x1, y1, x2, y2))
+	#print("(%3.2f, %3.2f) --> (%3.2f, %3.2f)" % (x1, y1, x2, y2))
 	
 
 
@@ -286,6 +302,105 @@ def toggle_selector(event):
 					reg2.plot(ax=ax2, facecolor='blue', edgecolor='dimgrey', lw=2)
 					reg2.plot(ax=ax2, color='gold',fill=True,alpha=0.5)
 		plt.draw()
+
+
+	if event.key in ['M','m'] and toggle_selector.RS.active:
+		print('- Monte Carlo PTP mode -')
+
+		MC_n =int(input("Iterations: "))
+		K_master=[]
+		region_type='rectangle'
+		bar = Bar('Processing ', max=MC_n)
+		for n in range(0,MC_n):
+			S1=[]
+			S2=[]
+			e_s1=[]
+			e_s2=[]
+			shift_x=np.random.normal(0.,abs(x2-x1)/5.)
+			shift_y=np.random.normal(0.,abs(y2-y1)/5.)
+			
+			x_grid=np.arange(x1+shift_x,x2+shift_x,stepx/scale1)
+			y_grid=np.arange(y1+shift_y,y2+shift_y,stepy/scale1)
+			x_cen=[(x_grid[k]+x_grid[k+1])/2. for k in range(0,len(x_grid)-1)]
+			y_cen=[(y_grid[k]+y_grid[k+1])/2. for k in range(0,len(y_grid)-1)]
+			i_x=0
+			#for xi in x_cen:
+			#	for yi in y_cen:
+			while i_x<len(x_cen):
+				i_y=0
+				while i_y<len(y_cen):
+					#center = PixCoord(xi, yi)
+					center=PixCoord(x_cen[i_x],y_cen[i_y])
+					reg1 = RectanglePixelRegion(center, width=stepx/scale1, height=stepy/scale1)
+					mask = reg1.to_mask(mode='center')
+
+
+					weighted_data_1d = mask.get_values(thresh_map)
+					if np.sum(weighted_data_1d)>limit*stepx*stepy/scale1**2:
+						mask1 = reg1.to_mask(mode='center')
+						wx, wy = w1.wcs_pix2world(center.x,center.y, 1)
+			
+						px, py = w2.wcs_world2pix(wx, wy, 1)
+						reg2 = RectanglePixelRegion(PixCoord(px,py), width=stepx/scale2,height=stepy/scale2)
+						area=stepx*stepy
+				
+						mask2 = reg2.to_mask(mode='center')
+						serie_data_1 = mask1.get_values(image_data1)
+						serie_data_2 = mask2.get_values(image_data2)
+						v1=np.nansum(serie_data_1)/area
+						v2=np.nansum(serie_data_2)/area
+						e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))
+						e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))
+
+						if v1>0. and v2>0. and np.isnan(v1)==False and np.isnan(v2)==False and e_v1>0. and e_v2>0. and np.isnan(e_v1)==False and np.isnan(e_v2)==False:
+							#reg1.plot(ax=ax1, color='gold',fill=True,alpha=0.5)
+					
+							S1.append(v1)
+							S2.append(v2)
+							e_s1.append(e_v1)
+							e_s2.append(e_v2)
+							
+					i_y=i_y+1
+				i_x=i_x+1
+					
+					
+					
+			#plt.draw()
+			e_s1=np.array(e_s1)/np.array(S1)
+			e_s2=np.array(e_s2)/np.array(S2)
+			S1=np.log(S1)
+			S2=np.log(S2)
+			blockPrint()
+			a,b,aerr,berr,covab=BCES.bcesp(S1,e_s1,S2,e_s2,np.zeros_like(S1),10000)
+			enablePrint()
+			if np.isnan(a[3])==False and np.isnan(aerr[3])==False:
+				K_master.append(np.random.normal(a[3],aerr[3]))
+			bar.next()
+		bar.finish()
+		print('Valid solutions: ',str(len(K_master)))
+		with open('out_MCptp.dat', 'w') as f:
+			for line in K_master:
+				f.write(f"{line}\n")
+
+		mu, std = norm.fit(K_master)
+		print('Average slope k: ',str(round(mu,2)))
+		
+		fig,ax3=plt.subplots()
+		bins=np.linspace(mu-2.*std,mu+2.*std,10)
+		ax3.hist(K_master,bins=bins,color='dodgerblue',label=r'$k_{MC}=$'+str(round(np.nanmean(K_master),2))+r'$\pm$'+str(round(np.nanstd(K_master),2)))
+		ax3.set_xlabel(r'$k$')
+		ax3.set_ylabel('Frequency')
+		ax3.axvline(np.nanmean(K_master),linestyle='dashed',color='dimgrey')
+		x = np.linspace(bins[0], bins[-1], 100)
+		p = norm.pdf(x, mu, std)
+		ax3.legend(frameon=False)
+		ax3.tick_params(which='major', width=1.00, length=5,right=True,top=True)
+		plt.savefig('out_MCptp.jpg')
+		print('Output:')
+		print('1) out_MCptp.jpg: Boot-strapped k histogram plot with best fit')
+		print('2) out_MCptp.dat: Boot-strapped k')
+		
+
 	if event.key in ['I','i'] and toggle_selector.RS.active:
 		print('- Grid reading -')
 		ax1.patches.clear()
@@ -362,7 +477,9 @@ def toggle_selector(event):
 		per=stats.pearsonr(S1,S2)
 		x_range=np.linspace(np.min(S1),np.max(S1),100)
 		fig,ax3=plt.subplots()
+		blockPrint()
 		a,b,aerr,berr,covab=BCES.bcesp(S1,e_s1,S2,e_s2,np.zeros_like(S1),10000)
+		enablePrint()
 		fitm=np.array([a[3],b[3]])	
 		covm=np.array([ (aerr[3]**2,covab[3]), (covab[3],berr[3]**2) ])	
 		lcb,ucb,x_range=nmmn.stats.confband(S1,S2,a[3],b[3],conf=0.68)
@@ -376,6 +493,12 @@ def toggle_selector(event):
 		ax3.set_xlabel(r'Log (sum$_{IMG1}$/arcsec$^2$)')
 		ax3.set_ylabel(r'Log (sum$_{IMG2}$/arcsec$^2$)')
 		fig.savefig('out.jpg')
+		print('Best-fit slope: ',str(round(a[3],2)))
+		print('Output:')
+		print('1) out.jpg: Scatter plot with best-fit slope')
+		print('2) out_plot.png: IMAGE1 and IMAGE2 with cells used in PtP analysis')
+		print('3) out.dat: Data readout ')
+		print('4) out_grid.reg: grid in DS9 fk5 format')
 
 	if event.key in ['C', 'c'] and toggle_selector.RS.active:
 		print('- Grid clearing -')
@@ -471,6 +594,7 @@ print('W: Create rectangular grid in ROI')
 print('H: Create hexagonal grid in ROI')
 print('D: Mask map in ROI')
 print('I: Run PtP analysis with active grids. Output: Plot in out.jpg, out_plot.png, and data series in out.dat')
+print('M: Run Monte Carlo PtP analysis. Output: Plot in out_MCptp.jpg, and data series in out_MCptp.dat')
 print('X: Recenter images')
 print('+/-: Increase/decrease cell size by 0.5 arcsec')
 print('C: Clear grid')
