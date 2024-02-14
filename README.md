@@ -72,12 +72,12 @@ Then, with the cursor on the left panel, press:
   - out.dat: Data readout in the format SUM $_1$  $\sigma_1$  SUM $_2$  $\sigma_2$ cell area (arcsec $^2$ ) 
   - out_grid.reg: grid in DS9 fk5 format
 
--**M/m**: Run Monte Carlo PtP analysis. Indicate the number of iterations (do not mind the warning). The average slope is derived from the distribution of best-fit slopes computed for each iteration. 
+- **M/m**: Run Monte Carlo PtP analysis. Indicate the number of iterations (do not mind the warning). The average slope is derived from the distribution of best-fit slopes computed for each iteration. 
 
   Output:
 
-  -out_MCptp.jpg: Histogram plot of slope distribution
-  -out_MCptp.dat: data readout
+  - out_MCptp.jpg: Histogram plot of slope distribution
+  - out_MCptp.dat: data readout
     
 **Note:** Outputs are automatically overwritten with each new analysis
     
