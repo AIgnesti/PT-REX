@@ -349,8 +349,8 @@ def toggle_selector(event):
 						serie_data_2 = mask2.get_values(image_data2)
 						v1=np.nansum(serie_data_1)/area
 						v2=np.nansum(serie_data_2)/area
-						e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))
-						e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))
+						e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))/area
+						e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))/area
 
 						if v1>0. and v2>0. and np.isnan(v1)==False and np.isnan(v2)==False and e_v1>0. and e_v2>0. and np.isnan(e_v1)==False and np.isnan(e_v2)==False:
 							#reg1.plot(ax=ax1, color='gold',fill=True,alpha=0.5)
@@ -443,8 +443,8 @@ def toggle_selector(event):
 			serie_data_2 = mask2.get_values(image_data2)
 			v1=np.nansum(serie_data_1)/area
 			v2=np.nansum(serie_data_2)/area
-			e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))
-			e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))
+			e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))/area
+			e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))/area
 
 			if v1>0. and v2>0. and np.isnan(v1)==False and np.isnan(v2)==False and e_v1>0. and e_v2>0. and np.isnan(e_v1)==False and np.isnan(e_v2)==False:
 
@@ -653,8 +653,8 @@ if grid!='none':
 		serie_data_2 = mask2.get_values(image_data2)
 		v1=np.nansum(serie_data_1)/reg1.area/scale1/scale1
 		v2=np.nansum(serie_data_2)/reg2.area/scale2/scale2
-		e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))
-		e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))
+		e_v1=np.sqrt(np.nanmean(np.square(serie_data_1)))/reg1.area/scale1/scale1
+		e_v2=np.sqrt(np.nanmean(np.square(serie_data_2)))/reg2.area/scale2/scale2
 		mask_ch= mask1.get_values(thresh_map)
 		
 
