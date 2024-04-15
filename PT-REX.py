@@ -1,7 +1,7 @@
 #!usr/bin/python
 ###########################
 #Author: Alessandro Ignesti
-#Point-to-point TRend EXtractorn V. 3.2
+#Point-to-point TRend EXtractorn V. 3.3
 #For reference:
 #https://www.sciencedirect.com/science/article/pii/S1384107621001457 
 #https://github.com/AIgnesti/PT-REX
@@ -61,6 +61,7 @@ thresh='none'
 grid='none'
 mask_g='none'
 sm_g='none'
+thr_2='none'
 limit=0.5
 image_file1='none'#'JW100new_Ha_5x5.fits'
 image_file2='none'#'16136-img.fits'
@@ -73,7 +74,9 @@ if("-sm" in  sys.argv):
 	sm_g= float(sys.argv[sys.argv.index("-sm") + 1] )   
 
 if("-thr" in  sys.argv):
-	thresh = float(sys.argv[sys.argv.index("-thr") + 1] )   
+	thresh = float(sys.argv[sys.argv.index("-thr") + 1] )
+if("-thr_2" in  sys.argv):
+	thr_2 = float(sys.argv[sys.argv.index("-thr_2") + 1] )   
 
 if("-im1" in  sys.argv):
 	image_file1 = sys.argv[sys.argv.index("-im1") + 1] 
@@ -98,10 +101,11 @@ if("-h" in  sys.argv or len(sys.argv)==1):
 	print('Optional:')
 	print('-lm: Set grid overlap with mask [0.0-0.99, default 0.5]')
 	print('-sm: Set Gaussian smoothing sigma size for IMAGE2 [arcsec]')
+	print('-thr_2: Set IMAGE2 threshold [IMAGE2 units]')
 	print('-grid: Load a grid from DS9 FK5 region file')
 	print('-mask: Load a mask from DS9 FK5 region file')
 	print('-h Print help')
-	print('EXAMPLE: python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0 -lm 0.7 -sm 3.0 -mask mask.reg -grid ds9_grid.reg')
+	print('EXAMPLE: python PTREX_3 -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0 -thr_2 3.14 -lm 0.7 -sm 3.0 -mask mask.reg -grid ds9_grid.reg')
 	print('---------------------')
 	exit()
 if('-pt-rex' in sys.argv):
@@ -549,6 +553,8 @@ scale2=pixel_scale_2[0]*3600.
 if sm_g!='none':
 	image_data2 = ndimage.gaussian_filter(image_data2, sigma=(sm_g*scale2, sm_g*scale2), order=0)
 
+
+
 thresh_map=thresh_mapper(thresh,image_data1)
 click = [None,None]
 release = [None,None]
@@ -567,6 +573,13 @@ h_fov=len(image_data1[0,:])*scale1/scale2/2.
 ax1.imshow(image_data1,origin='lower',aspect='equal',cmap=newcmp,norm=SymLogNorm(vmin=np.nanmean(image_data1)*0.005,vmax=np.nanmean(image_data1)*500.,linthresh=np.nanmean(image_data1)))#vmin=thresh,vmax=10.*thresh
 ax1.contour(thresh_map,levels=[thresh],colors='silver',linewidths=0.7)
 ax2.imshow(image_data2,origin='lower',cmap=newcmp,norm=SymLogNorm(vmin=np.nanmean(image_data2)*0.005,vmax=np.nanmean(image_data2)*500.,linthresh=np.nanmean(image_data2)))#,
+if thr_2!='none':
+	thresh_map2=np.zeros_like(image_data2)
+	thresh_map2[image_data2>thr_2]=1.
+	image_data2[image_data2<thr_2]=np.nan
+	ax2.contour(thresh_map2,levels=[thr_2],colors='silver',linewidths=0.7)
+
+
 ax2.set_xlim(px_fov-w_fov,px_fov+w_fov)
 ax2.set_ylim(py_fov-h_fov,py_fov+h_fov)
 
