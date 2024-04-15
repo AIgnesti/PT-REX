@@ -1,6 +1,6 @@
 # Point-to-point TRend EXtractor (PT-REX)
 
-*v 3.2*
+*v 3.3*
 
 Investigating the spatial correlation between different emissions in an extended astrophysical source can provide crucial insights into their physical connection, hence it can be the key to understanding the nature of the system. The point-to-point analysis of surface brightness is a reliable method to do such an analysis. The PT-REX code is designed[^1] to carry out these studies between different emissions in extended sources. For further information check [the paper](https://www.sciencedirect.com/science/article/pii/S1384107621001457?via%3Dihub)[^2].
 
@@ -43,6 +43,7 @@ PT-REX analyzes two separate images in FITS format. Run the code in the same fol
 
 - **-lm**: Set the minimum emission overlap required for each cell [0.0-0.9, default 0.5]
 - **-sm**: Set a Gaussian smoothing sigma size for IMAGE2 [arcsec]
+- **-thr_2**: Set IMAGE2 threshold [IMAGE2 units]
 - **-mask**: Load a pre-existing mask from a DS9 FK5 region file
 - **-grid**: Insert the name of a pre-existing grid, or list of regions, in DS9 fk5 format to be loaded on the images. The corresponding ptp analysis scatter plot is produced and saved in out_[grid name].jpg, and the data readings are saved in out_[grid name].dat
 - **-h** Print help
