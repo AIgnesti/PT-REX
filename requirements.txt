@@ -1,6 +1,6 @@
 #Required python packages for PT-REX.
 #Run python -m pip install -r requirements.txt
-matplotlib
+matplotlib==3.4
 numpy
 astropy
 regions
