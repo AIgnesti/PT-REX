@@ -28,7 +28,7 @@ python -m pip install -r requirements.txt
 
 ## Running PT-REX
 
-### Launching the code
+### Running the code
 
 PT-REX analyzes two separate images in FITS format. Run the code in the same folder as the two images and use the following keywords to set the parameters:
 
@@ -52,7 +52,7 @@ EXAMPLE:
 ```bash
 python PT-REX.py -im1 image1.fits -im2 image2.fits -cel_w 10.0 -cel_h 10.0 -thr 42.0 -lm 0.7 -sm 3.0 -mask mask.reg -grid ds9_grid.reg
 ```
-### Performing the analysis
+### Inspecting the results
 
 - Left panel: IMAGE1. The silver contour indicates the threshold level.
 - Right panel: IMAGE2 
