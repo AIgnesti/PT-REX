@@ -429,7 +429,6 @@ def toggle_selector(event):
 				reg1 = RectanglePixelRegion(center, width=stepx/scale1,height=stepy/scale1)
 				reg2 = RectanglePixelRegion(PixCoord(px,py), width=stepx/scale2,height=stepy/scale2)
 				area=stepx*stepy
-				grid.write('box('+str(wx)+','+str(wy)+','+str(stepx)+'",'+str(stepy)+'",0.0)\n')
 
 			if region_type=='hexagon':
 				r=np.sqrt(stepx**2+stepy**2)/scale1/2.
@@ -438,7 +437,6 @@ def toggle_selector(event):
 
 				area=3./2.*np.sqrt(3.)*r*r*scale1**2
 				reg1_s=reg1.to_sky(w1)
-				grid.write('polygon('+str(reg1_s.vertices[0].ra)+','+str(reg1_s.vertices[0].dec)+','+str(reg1_s.vertices[1].ra)+','+str(reg1_s.vertices[1].dec)+','+str(reg1_s.vertices[2].ra)+','+str(reg1_s.vertices[2].dec)+','+str(reg1_s.vertices[3].ra)+','+str(reg1_s.vertices[3].dec)+','+str(reg1_s.vertices[4].ra)+','+str(reg1_s.vertices[4].dec)+','+str(reg1_s.vertices[5].ra)+','+str(reg1_s.vertices[5].dec)+')\n')
 				#grid.write('polygon('+str(reg1.vertices[0].x)+','+str(reg1.vertices[0].y)+','+str(reg1.vertices[1].x)+','+str(reg1.vertices[1].y)+','+str(reg1.vertices[2].x)+','+str(reg1.vertices[2].y)+','+str(reg1.vertices[3].x)+','+str(reg1.vertices[3].y)+','+str(reg1.vertices[4].x)+','+str(reg1.vertices[4].y)+','+str(reg1.vertices[5].x)+','+str(reg1.vertices[5].y)+')\n')
 			mask1 = reg1.to_mask(mode='center')
 
@@ -460,6 +458,13 @@ def toggle_selector(event):
 				reg1.plot(ax=ax1, color='gold',fill=True,alpha=0.5)
 				reg2.plot(ax=ax2, facecolor='blue', edgecolor='dimgrey', lw=2)
 				reg2.plot(ax=ax2, color='gold',fill=True,alpha=0.5)
+				if region_type=='rectangle':
+					grid.write('box('+str(wx)+','+str(wy)+','+str(stepx)+'",'+str(stepy)+'",0.0)\n')
+				
+				if region_type=='hexagon':
+					grid.write('polygon('+str(reg1_s.vertices[0].ra)+','+str(reg1_s.vertices[0].dec)+','+str(reg1_s.vertices[1].ra)+','+str(reg1_s.vertices[1].dec)+','+str(reg1_s.vertices[2].ra)+','+str(reg1_s.vertices[2].dec)+','+str(reg1_s.vertices[3].ra)+','+str(reg1_s.vertices[3].dec)+','+str(reg1_s.vertices[4].ra)+','+str(reg1_s.vertices[4].dec)+','+str(reg1_s.vertices[5].ra)+','+str(reg1_s.vertices[5].dec)+')\n')
+
+
 				
 		ran=len(S1)
 		grid.close()
